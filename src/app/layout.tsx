@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Suspense } from 'react';
 import Navbar from './navbar';
+import { ReactQueryProviders } from '@/frontend/provider/ReactQueryProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,12 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full bg-gray-50">
-      <body className="h-full">
-        <Suspense>
-          <Navbar />
-        </Suspense>
-        {children}
-      </body>
+      <ReactQueryProviders>
+        <body className="h-full">
+          <Suspense>
+            <Navbar />
+          </Suspense>
+          {children}
+        </body>
+      </ReactQueryProviders>
     </html>
   );
 }
