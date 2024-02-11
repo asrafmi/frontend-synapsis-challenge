@@ -1,4 +1,4 @@
-name: Feature Checking
+name: Deploy to Production
 
 on:
   push:
@@ -26,8 +26,11 @@ jobs:
       - name: install dependencies
         run: yarn install
 
+      - name: build application
+        run: yarn build
+
       - name: start application
-        run: yarn start&
+        run: yarn start
 
       - name: test if app is working
         run: until curl -v http://localhost:3000 > /dev/null; do sleep 1; done
