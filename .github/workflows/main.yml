@@ -11,7 +11,7 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
-  checking-features:
+  deploy-to-production:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
