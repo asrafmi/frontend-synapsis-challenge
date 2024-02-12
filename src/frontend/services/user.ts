@@ -1,18 +1,18 @@
 import { backendRequest } from '@/infrastructure/backend-request';
 import { Param } from '@/types/general';
 
-class PostsService {
+class UsersService {
   getAll(param: Param) {
     const queryParam = new URLSearchParams({
       page: param.page,
       per_page: param.per_page,
     }).toString();
-    return backendRequest().get(`/public/v2/posts?${queryParam}`);
+    return backendRequest().get(`/public/v2/users?${queryParam}`);
   }
 
-  getPostById(id: number) {
-    return backendRequest().get(`/public/v2/posts/${id}`);
+  getUserById(id: number) {
+    return backendRequest().get(`/public/v2/users/${id}`);
   }
 }
 
-export const postSvc = new PostsService();
+export const userSvc = new UsersService();
