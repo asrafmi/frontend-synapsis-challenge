@@ -1,3 +1,4 @@
+import { Post } from '@/types/post';
 import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import slugify from 'slugify';

@@ -16,10 +16,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    require('@headlessui/tailwindcss'),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/line-clamp'),
-  ],
+  plugins: [require('@headlessui/tailwindcss'), require('@tailwindcss/forms')],
 };
 export default config;

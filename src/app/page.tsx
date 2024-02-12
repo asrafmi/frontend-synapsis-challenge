@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useAllPost } from '@/frontend/hooks/post';
 import Card from './components/Card';
-import { useQuery } from '@tanstack/react-query';
+import { Post } from '@/types/post';
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -10,19 +10,15 @@ export default function Home() {
     page: currentPage,
     per_page: 10,
   });
-  // const { data: postData } = useQuery({ queryKey: 'post' });
+
   const posts: Post[] = data?.data;
-  console.log('posts', posts);
-  // console.log('postData', postData);
 
   useEffect(() => {
-    refetch({ page: currentPage });
+    refetch({ page: currentPage } as any);
   }, [currentPage, refetch]);
 
-  // Menghitung jumlah halaman maksimum (maksimal 5 halaman)
   const totalPages = Math.min(Math.ceil(1000 / 10), 5);
 
-  // Fungsi untuk menangani perubahan halaman
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };

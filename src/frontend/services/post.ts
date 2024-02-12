@@ -6,7 +6,7 @@ class PostsService {
     const queryParam = new URLSearchParams({
       page: param.page,
       per_page: param.per_page,
-    }).toString();
+    } as any);
     return backendRequest().get(`/public/v2/posts?${queryParam}`);
   }
 
