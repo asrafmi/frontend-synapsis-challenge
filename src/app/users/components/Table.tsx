@@ -123,11 +123,11 @@ const Table = () => {
               ))
             ) : isLoading ? (
               <tr>
-                <td className="border-2 text-gray-950">Loading...</td>
+                <td className="text-gray-950 p-4">Loading...</td>
               </tr>
             ) : (
               <tr>
-                <td className="border-2 text-gray-950">No Data :(</td>
+                <td className="text-gray-950 p-4">No Data :(</td>
               </tr>
             )}
           </tbody>
