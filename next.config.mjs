@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: { serverComponentsExternalPackages: ['@tremor/react'] },
   images: {
     remotePatterns: [
       {
@@ -10,8 +11,13 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'avatar.vercel.sh',
       },
+      {
+        protocol: 'https',
+        hostname: 'ui-avatars.com',
+      },
     ],
   },
+  reactStrictMode: false,
 };
 
 export default nextConfig;
