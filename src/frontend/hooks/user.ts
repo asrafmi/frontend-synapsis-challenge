@@ -30,17 +30,11 @@ const useDeleteUserById = () => {
   });
 };
 
-const useSearchUser = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: userSvc.searchUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries('user' as any);
-    },
-    onError: (err) => {
-      console.log('err', err);
-    },
-  });
+const useSearchUser = (name: string) => {
+return useQuery({
+  queryKey: ['user'],
+  queryFn: () => userSvc.searchUser(name),
+})
 };
 
 const useCreateUser = () => {
