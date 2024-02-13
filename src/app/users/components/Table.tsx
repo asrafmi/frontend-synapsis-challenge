@@ -24,6 +24,7 @@ const Table = () => {
   const { data, isLoading, refetch } = useAllUser({
     page: currentPage,
     per_page: 10,
+    name: searchQuery,
   });
 
   const users: User[] = data?.data;
@@ -34,15 +35,9 @@ const Table = () => {
     isError: deleteError,
   } = useDeleteUserById();
 
-  const {
-    mutateAsync: mutateSearchUser,
-    isSuccess: searchSuccess,
-    isError: searchError,
-  } = useSearchUser();
-
   useEffect(() => {
-    refetch({ page: currentPage } as any);
-  }, [currentPage]);
+    refetch({ page: currentPage, name: searchQuery } as any);
+  }, [currentPage, searchQuery]);
 
   const totalPages = Math.min(Math.ceil(1000 / 10), 5);
 
@@ -52,7 +47,6 @@ const Table = () => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
-    mutateSearchUser({ name: searchQuery });
   };
 
   const handleAccept = () => {

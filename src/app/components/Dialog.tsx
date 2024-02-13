@@ -38,7 +38,6 @@ const Dialog = ({
     if (mode === 'edit' && userDetail) {
       setFormData(userDetail);
     }
-    console.log('formData', formData);
   }, []);
 
   const {

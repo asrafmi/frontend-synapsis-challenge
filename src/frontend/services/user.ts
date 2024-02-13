@@ -7,6 +7,7 @@ class UsersService {
     const queryParam = new URLSearchParams({
       page: param.page,
       per_page: param.per_page,
+      name: param.name,
     } as any);
     return backendRequest().get(`/public/v2/users?${queryParam}`);
   }
@@ -19,8 +20,8 @@ class UsersService {
     return backendRequest().delete(`/public/v2/users/${param.id}`);
   }
 
-  searchUser(param: { name: string }) {
-    return backendRequest().get(`/public/v2/users?name=${param.name}`);
+  searchUser(name: string) {
+    return backendRequest().get(`/public/v2/users?name=${name}`);
   }
 
   createUser(param: { body: Omit<User, 'id'> }) {
