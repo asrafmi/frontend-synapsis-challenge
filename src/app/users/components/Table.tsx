@@ -59,9 +59,9 @@ const Table = () => {
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <div className="flex flex-row absolute top-2 right-5 gap-2">
+        <div className="flex flex-col absolute top-2 right-5 gap-2 sm:flex-row">
           <button
-            className="px-4 py-1 shadow-md text-[10px] text-center rounded-md"
+            className="ms-3 text-gray-500 shadow-sm bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5"
             onClick={() => {
               setDialogMode('create');
               setIsDialogOpen(true);
@@ -103,8 +103,8 @@ const Table = () => {
                     {item.name}
                   </th>
                   <td className="px-6 py-4">{item.email}</td>
-                  <td className="px-6 py-4">{item.gender}</td>
-                  <td className="px-6 py-4">{item.status}</td>
+                  <td className="px-6 py-4 text-center">{item.gender}</td>
+                  <td className="px-6 py-4 text-center">{item.status}</td>
                   <td className="px-6 py-4 flex flex-row gap-3 items-center justify-center">
                     <PencilIcon
                       onClick={() => {
@@ -123,11 +123,11 @@ const Table = () => {
               ))
             ) : isLoading ? (
               <tr>
-                <td className="border-2 text-gray-950">Loading...</td>
+                <td className="text-gray-950 p-4">Loading...</td>
               </tr>
             ) : (
               <tr>
-                <td className="border-2 text-gray-950">No Data :(</td>
+                <td className="text-gray-950 p-4">No Data :(</td>
               </tr>
             )}
           </tbody>

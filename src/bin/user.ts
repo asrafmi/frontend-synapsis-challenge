@@ -2,7 +2,7 @@ export const tableHead = [
   {
     label: 'Name',
     scope: 'col',
-    class: 'normal-case px-6 py-5 text-center',
+    class: 'normal-case px-6 py-5 text-start',
   },
   {
     label: 'Email',
