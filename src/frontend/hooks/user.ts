@@ -43,4 +43,37 @@ const useSearchUser = () => {
   });
 };
 
-export { useAllUser, useGetUserById, useDeleteUserById, useSearchUser };
+const useCreateUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: userSvc.createUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries('user');
+    },
+    onError: (err) => {
+      console.log('err', err);
+    },
+  });
+};
+
+const useUpdateUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: userSvc.updateUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries('user');
+    },
+    onError: (err) => {
+      console.log('err', err);
+    },
+  });
+};
+
+export {
+  useAllUser,
+  useGetUserById,
+  useDeleteUserById,
+  useSearchUser,
+  useCreateUser,
+  useUpdateUser,
+};

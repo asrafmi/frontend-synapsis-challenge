@@ -1,5 +1,6 @@
 import { backendRequest } from '@/infrastructure/backend-request';
 import { Param } from '@/types/general';
+import { User } from '@/types/user';
 
 class UsersService {
   getAll(param: Param) {
@@ -20,6 +21,14 @@ class UsersService {
 
   searchUser(param: { name: string }) {
     return backendRequest().get(`/public/v2/users?name=${param.name}`);
+  }
+
+  createUser(param: { body: Omit<User, 'id'> }) {
+    return backendRequest().post(`/public/v2/users`, param.body);
+  }
+
+  updateUser(param: { id: string; body: Omit<User, 'id'> }) {
+    return backendRequest().put(`/public/v2/users/${param.id}`, param.body);
   }
 }
 

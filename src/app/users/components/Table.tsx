@@ -8,12 +8,15 @@ import {
 } from '@/frontend/hooks/user';
 import { User } from '@/types/user';
 import { useEffect, useState } from 'react';
-import { Dialog } from '@headlessui/react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import Dialog from '@/app/components/Dialog';
 
 const Table = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [dialogMode, setDialogMode] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState({} as User);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -51,13 +54,28 @@ const Table = () => {
     e.preventDefault();
     mutateSearchUser({ name: searchQuery });
   };
+
+  const handleAccept = () => {
+    setIsDialogOpen(false);
+  };
+
+  const handleDecline = () => {
+    setIsDialogOpen(false);
+  };
+
+  useEffect(() => {
+    console.log('selectedUser', selectedUser);
+  }, [selectedUser]);
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <div className="flex flex-row absolute top-2 right-5 gap-2">
           <button
             className="px-4 py-1 shadow-md text-[10px] text-center rounded-md"
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              setDialogMode('create');
+              setIsDialogOpen(true);
+            }}
           >
             Create User
           </button>
@@ -98,7 +116,14 @@ const Table = () => {
                   <td className="px-6 py-4">{item.gender}</td>
                   <td className="px-6 py-4">{item.status}</td>
                   <td className="px-6 py-4 flex flex-row gap-3 items-center justify-center">
-                    <PencilIcon className="w-5 h-5 text-gray-300 hover:text-gray-400" />
+                    <PencilIcon
+                      onClick={() => {
+                        setSelectedUser(item);
+                        setIsDialogOpen(true);
+                        setDialogMode('edit');
+                      }}
+                      className="w-5 h-5 text-gray-300 hover:text-gray-400"
+                    />
                     <TrashIcon
                       onClick={() => mutateDeleteUser({ id: item.id })}
                       className="w-5 h-5 text-red-300 hover:text-red-400"
@@ -165,6 +190,16 @@ const Table = () => {
             </li>
           </ul>
         </nav>
+      )}
+      {isDialogOpen && (
+        <Dialog
+          userDetail={selectedUser}
+          title={dialogMode === 'edit' ? 'Edit User' : 'Create User'} // Title based on edit mode
+          mode={dialogMode === 'edit' ? 'edit' : 'create'} //
+          onAccept={handleAccept}
+          onDecline={handleDecline}
+          closeModal={() => setIsDialogOpen(false)}
+        />
       )}
     </>
   );
