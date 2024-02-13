@@ -13,6 +13,7 @@ const useGetUserById = (id: number) => {
   return useQuery({
     queryKey: ['user'],
     queryFn: () => userSvc.getUserById(id),
+    enabled: !!id,
   });
 };
 

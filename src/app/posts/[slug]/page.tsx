@@ -7,63 +7,57 @@ import { Post } from '@/types/post';
 import { User } from '@/types/user';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const DetailPost = () => {
   const pathname = usePathname();
   const splited = pathname.split('-');
   const id = splited[splited.length - 1];
-  const { data: postData, isLoading: postLoading } = useGetPostById(
-    parseInt(id)
-  );
-  const post: Post = postData?.data;
+  const [post, setPost] = useState<Post>({});
+  const [user, setUser] = useState<User>({});
+  const [comments, setComments] = useState<Comment[]>([]);
+  const {
+    data: postData,
+    isLoading: postLoading,
+    refetch: refetchPost,
+  } = useGetPostById(parseInt(id));
 
-  // if (!post) {
-  //   return;
-  // }
+  useEffect(() => {
+    const fetchPost = async () => {
+      await refetchPost();
+      await setPost(postData?.data);
+    };
 
-  // // eslint-disable-next-line react-hooks/rules-of-hooks
-  // const { data: userData, isLoading: userLoading } = useGetUserById(
-  //   parseInt(post.user_id)
-  // );
-  // const user: User = userData?.data;
+    fetchPost();
+  }, [postData?.data, refetchPost]);
 
-  // if (!user) {
-  //   return;
-  // }
+  const {
+    data: userData,
+    isLoading: userLoading,
+    refetch: refetchUser,
+  } = useGetUserById(post?.user_id);
 
-  // const { data: commentData, isLoading: commentLoading } =
-  //   // eslint-disable-next-line react-hooks/rules-of-hooks
-  //   useGetCommentByPostId();
+  const {
+    data: commentData,
+    isLoading: commentLoading,
+    refetch: refetchComment,
+  } = useGetCommentByPostId(post?.id);
 
-  // const comment: Comment = commentData?.data;
+  useEffect(() => {
+    const fetchUser = async () => {
+      await refetchUser();
+      await setUser(userData?.data);
+    };
+    fetchUser();
+  }, [postData?.data, refetchUser]);
 
-  const user = {
-    id: 6302734,
-    name: 'Asraf Mahajan',
-    email: 'mahajan_asraf@grant-welch.test',
-    gender: 'male',
-    status: 'inactive',
-  };
-
-  const comments = [
-    {
-      id: 80624,
-      post_id: 101594,
-      name: 'Bankim Khanna',
-      email: 'bankim_khanna@jenkins-metz.example',
-      body: 'Esse quas ut. Modi aliquam blanditiis. Debitis deleniti quo. Et maxime similique.',
-    },
-    {
-      id: 80623,
-      post_id: 101594,
-      name: 'Kalinda Pilla JD',
-      email: 'jd_pilla_kalinda@anderson.example',
-      body: 'Voluptates recusandae molestiae. Aspernatur enim ut.',
-    },
-  ];
-
-  const commentsLoading = false;
-
+  useEffect(() => {
+    const fetchComments = async () => {
+      await refetchComment();
+      await setComments(commentData?.data);
+    };
+    fetchComments();
+  }, [post, refetchComment]);
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl bg-gray-50">
       {postLoading ? (
@@ -91,11 +85,13 @@ const DetailPost = () => {
           </div>
           <p className="text-sm text-gray-900">{post.body}</p>
           <hr className="h-px my-4 border-0 bg-gray-300"></hr>
-          {comments && comments.length ? (
+          <h1 className="text-md font-bold tracking-tight text-gray-900">
+            Comments
+          </h1>
+          {commentLoading ? (
+            <h1 className="text-gray-900">Loading...</h1>
+          ) : comments && comments.length ? (
             <div className="flex flex-col gap-3">
-              <h1 className="text-md font-bold tracking-tight text-gray-900">
-                Comments
-              </h1>
               <div className="flex flex-col gap-3">
                 {comments.map((comment) => (
                   <div key={comment.id}>
@@ -123,10 +119,8 @@ const DetailPost = () => {
                 ))}
               </div>
             </div>
-          ) : commentsLoading ? (
-            <div></div>
           ) : (
-            <div></div>
+            <h1 className="text-gray-900">gaada data komen cuy :(</h1>
           )}
         </div>
       ) : (
