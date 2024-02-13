@@ -22,7 +22,7 @@ const useDeleteUserById = () => {
   return useMutation({
     mutationFn: userSvc.deleteUserById,
     onSuccess: () => {
-      queryClient.invalidateQueries('user');
+      queryClient.invalidateQueries('user' as any);
     },
     onError: (err) => {
       console.log('err', err);
@@ -35,7 +35,7 @@ const useSearchUser = () => {
   return useMutation({
     mutationFn: userSvc.searchUser,
     onSuccess: () => {
-      queryClient.invalidateQueries('user');
+      queryClient.invalidateQueries('user' as any);
     },
     onError: (err) => {
       console.log('err', err);
@@ -48,7 +48,7 @@ const useCreateUser = () => {
   return useMutation({
     mutationFn: userSvc.createUser,
     onSuccess: () => {
-      queryClient.invalidateQueries('user');
+      queryClient.invalidateQueries('user' as any);
     },
     onError: (err) => {
       console.log('err', err);
@@ -61,7 +61,7 @@ const useUpdateUser = () => {
   return useMutation({
     mutationFn: userSvc.updateUser,
     onSuccess: () => {
-      queryClient.invalidateQueries('user');
+      queryClient.invalidateQueries('user' as any);
     },
     onError: (err) => {
       console.log('err', err);

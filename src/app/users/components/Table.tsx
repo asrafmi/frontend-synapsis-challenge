@@ -1,4 +1,6 @@
 'use client';
+import React, { useEffect, useState } from 'react';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import SearchInput from '@/app/components/SearchInput';
 import { tableHead } from '@/bin/user';
 import {
@@ -7,8 +9,6 @@ import {
   useSearchUser,
 } from '@/frontend/hooks/user';
 import { User } from '@/types/user';
-import { useEffect, useState } from 'react';
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Dialog from '@/app/components/Dialog';
 
 const Table = () => {
@@ -18,7 +18,7 @@ const Table = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState({} as User);
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
   const { data, isLoading, refetch } = useAllUser({
@@ -50,7 +50,7 @@ const Table = () => {
     setCurrentPage(newPage);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     mutateSearchUser({ name: searchQuery });
   };
@@ -62,10 +62,6 @@ const Table = () => {
   const handleDecline = () => {
     setIsDialogOpen(false);
   };
-
-  useEffect(() => {
-    console.log('selectedUser', selectedUser);
-  }, [selectedUser]);
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

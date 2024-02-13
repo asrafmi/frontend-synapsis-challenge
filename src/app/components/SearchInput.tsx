@@ -1,11 +1,16 @@
-interface SearcInput {
+interface SearcInputType {
   label?: string;
   placeholder: string;
-  onChange: () => void;
-  onKeyPress: () => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const SearchInput = ({ label, placeholder, onChange, onKeyPress }) => {
+const SearchInput = ({
+  label,
+  placeholder,
+  onChange,
+  onKeyPress,
+}: SearcInputType) => {
   return (
     <form>
       {label && (

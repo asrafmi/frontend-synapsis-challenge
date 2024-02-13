@@ -27,7 +27,7 @@ class UsersService {
     return backendRequest().post(`/public/v2/users`, param.body);
   }
 
-  updateUser(param: { id: string; body: Omit<User, 'id'> }) {
+  updateUser(param: { id: number; body: Omit<User, 'id'> }) {
     return backendRequest().put(`/public/v2/users/${param.id}`, param.body);
   }
 }

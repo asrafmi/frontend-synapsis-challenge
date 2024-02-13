@@ -1,10 +1,9 @@
 import { useCreateUser, useUpdateUser } from '@/frontend/hooks/user';
 import { User } from '@/types/user';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface DialogType {
   title: string;
-  content: string;
   onAccept: () => void;
   onDecline: () => void;
   userDetail: User;
@@ -14,12 +13,11 @@ interface DialogType {
 
 const Dialog = ({
   title,
-  content,
   onAccept,
   onDecline,
   userDetail,
   mode,
-  closeModal
+  closeModal,
 }: DialogType) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -28,7 +26,7 @@ const Dialog = ({
     status: '',
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -200,9 +198,12 @@ const Dialog = ({
               if (mode === 'create') {
                 mutateCreateUser({ body: formData });
               } else {
-                mutateUpdateUser({ id: userDetail.id, body: formData });
+                mutateUpdateUser({
+                  id: userDetail.id,
+                  body: formData,
+                });
               }
-              closeModal()
+              closeModal();
             }}
             data-modal-hide="default-modal"
             type="button"
