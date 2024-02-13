@@ -13,8 +13,8 @@ const DetailPost = () => {
   const pathname = usePathname();
   const splited = pathname.split('-');
   const id = splited[splited.length - 1];
-  const [post, setPost] = useState<Post>({});
-  const [user, setUser] = useState<User>({});
+  const [post, setPost] = useState({} as Post);
+  const [user, setUser] = useState({} as User);
   const [comments, setComments] = useState<Comment[]>([]);
   const {
     data: postData,
@@ -35,13 +35,13 @@ const DetailPost = () => {
     data: userData,
     isLoading: userLoading,
     refetch: refetchUser,
-  } = useGetUserById(post?.user_id);
+  } = useGetUserById(post?.user_id as any as number);
 
   const {
     data: commentData,
     isLoading: commentLoading,
     refetch: refetchComment,
-  } = useGetCommentByPostId(post?.id);
+  } = useGetCommentByPostId(post?.id as any as number);
 
   useEffect(() => {
     const fetchUser = async () => {
