@@ -1,7 +1,11 @@
 'use client';
 import SearchInput from '@/app/components/SearchInput';
 import { tableHead } from '@/bin/user';
-import { useAllUser } from '@/frontend/hooks/user';
+import {
+  useAllUser,
+  useDeleteUserById,
+  useSearchUser,
+} from '@/frontend/hooks/user';
 import { User } from '@/types/user';
 import { useEffect, useState } from 'react';
 import { Dialog } from '@headlessui/react';
@@ -9,17 +13,33 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 const Table = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
   const { data, isLoading, refetch } = useAllUser({
     page: currentPage,
     per_page: 10,
   });
 
   const users: User[] = data?.data;
-  console.log('users', users);
+
+  const {
+    mutateAsync: mutateDeleteUser,
+    isSuccess: deleteSuccess,
+    isError: deleteError,
+  } = useDeleteUserById();
+
+  const {
+    mutateAsync: mutateSearchUser,
+    isSuccess: searchSuccess,
+    isError: searchError,
+  } = useSearchUser();
 
   useEffect(() => {
     refetch({ page: currentPage } as any);
-  }, [currentPage, refetch]);
+  }, [currentPage]);
 
   const totalPages = Math.min(Math.ceil(1000 / 10), 5);
 
@@ -27,7 +47,10 @@ const Table = () => {
     setCurrentPage(newPage);
   };
 
-  let [isOpen, setIsOpen] = useState(false);
+  const handleKeyPress = (e) => {
+    e.preventDefault();
+    mutateSearchUser({ name: searchQuery });
+  };
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -38,7 +61,15 @@ const Table = () => {
           >
             Create User
           </button>
-          <SearchInput />
+          <SearchInput
+            placeholder={'Search User'}
+            onChange={handleSearchChange}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleKeyPress(e);
+              }
+            }}
+          />
         </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <caption className="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white">
@@ -68,7 +99,10 @@ const Table = () => {
                   <td className="px-6 py-4">{item.status}</td>
                   <td className="px-6 py-4 flex flex-row gap-3 items-center justify-center">
                     <PencilIcon className="w-5 h-5 text-gray-300 hover:text-gray-400" />
-                    <TrashIcon className="w-5 h-5 text-red-300 hover:text-red-400" />
+                    <TrashIcon
+                      onClick={() => mutateDeleteUser({ id: item.id })}
+                      className="w-5 h-5 text-red-300 hover:text-red-400"
+                    />
                   </td>
                 </tr>
               ))

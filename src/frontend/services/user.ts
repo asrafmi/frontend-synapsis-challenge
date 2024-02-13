@@ -13,6 +13,14 @@ class UsersService {
   getUserById(id: number) {
     return backendRequest().get(`/public/v2/users/${id}`);
   }
+
+  deleteUserById(param: { id: number }) {
+    return backendRequest().delete(`/public/v2/users/${param.id}`);
+  }
+
+  searchUser(param: { name: string }) {
+    return backendRequest().get(`/public/v2/users?name=${param.name}`);
+  }
 }
 
 export const userSvc = new UsersService();

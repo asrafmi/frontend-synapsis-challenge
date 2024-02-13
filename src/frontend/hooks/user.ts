@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Param } from '@/types/general';
 import { userSvc } from '../services/user';
 
@@ -17,4 +17,30 @@ const useGetUserById = (id: number) => {
   });
 };
 
-export { useAllUser, useGetUserById };
+const useDeleteUserById = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: userSvc.deleteUserById,
+    onSuccess: () => {
+      queryClient.invalidateQueries('user');
+    },
+    onError: (err) => {
+      console.log('err', err);
+    },
+  });
+};
+
+const useSearchUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: userSvc.searchUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries('user');
+    },
+    onError: (err) => {
+      console.log('err', err);
+    },
+  });
+};
+
+export { useAllUser, useGetUserById, useDeleteUserById, useSearchUser };
