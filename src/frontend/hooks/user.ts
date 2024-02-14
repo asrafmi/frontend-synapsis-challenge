@@ -31,10 +31,10 @@ const useDeleteUserById = () => {
 };
 
 const useSearchUser = (name: string) => {
-return useQuery({
-  queryKey: ['user'],
-  queryFn: () => userSvc.searchUser(name),
-})
+  return useQuery({
+    queryKey: ['user'],
+    queryFn: () => userSvc.searchUser(name),
+  });
 };
 
 const useCreateUser = () => {
