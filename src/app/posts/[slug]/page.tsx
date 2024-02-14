@@ -37,11 +37,8 @@ const DetailPost = () => {
     refetch: refetchUser,
   } = useGetUserById(post?.user_id as any as number);
 
-  const {
-    data: commentData,
-    isLoading: commentLoading,
-    refetch: refetchComment,
-  } = useGetCommentByPostId(post?.id as any as number);
+  const { data: commentData, isLoading: commentLoading } =
+    useGetCommentByPostId(post?.id as any as number);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -50,14 +47,6 @@ const DetailPost = () => {
     };
     fetchUser();
   }, [postData?.data, refetchUser]);
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      await refetchComment();
-      await setComments(commentData?.data);
-    };
-    fetchComments();
-  }, [post, refetchComment]);
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl bg-gray-50">
       {postLoading ? (
@@ -78,9 +67,15 @@ const DetailPost = () => {
               />
             </div>
             <div>
-              <h1 className="text-md font-bold tracking-tight text-gray-900">
-                {user && user.name ? user.name : 'Anonymous User'}
-              </h1>
+              {userLoading ? (
+                <h1 className="text-md font-bold tracking-tight text-gray-300 animate-pulse">
+                  Loading...
+                </h1>
+              ) : (
+                <h1 className="text-md font-bold tracking-tight text-gray-900">
+                  {user && user.name ? user.name : 'Anonymous User'}
+                </h1>
+              )}
             </div>
           </div>
           <p className="text-sm text-gray-900">{post.body}</p>
@@ -90,10 +85,10 @@ const DetailPost = () => {
           </h1>
           {commentLoading ? (
             <h1 className="text-gray-900">Loading...</h1>
-          ) : comments && comments.length ? (
+          ) : commentData?.data && commentData?.data.length ? (
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-3">
-                {comments.map((comment) => (
+                {commentData?.data.map((comment) => (
                   <div key={comment.id}>
                     <div className="flex flex-row gap-1 items-center">
                       <div className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
