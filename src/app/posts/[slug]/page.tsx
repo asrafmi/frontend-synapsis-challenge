@@ -88,7 +88,7 @@ const DetailPost = () => {
           ) : commentData?.data && commentData?.data.length ? (
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-3">
-                {commentData?.data.map((comment) => (
+                {commentData?.data.map((comment: Omit<Comment, 'post_id'>) => (
                   <div key={comment.id}>
                     <div className="flex flex-row gap-1 items-center">
                       <div className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
