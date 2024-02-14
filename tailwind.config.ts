@@ -5,7 +5,6 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -16,6 +15,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('@headlessui/tailwindcss'), require('@tailwindcss/forms')],
+  plugins: [],
 };
 export default config;
